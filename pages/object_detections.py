@@ -13,7 +13,10 @@ model = models.resnet152(pretrained=False)
 model.fc = nn.Linear(in_features=model.fc.in_features, out_features=10)
 
 # Загрузка весов модели, сохраненных ранее
-model.load_state_dict(torch.load('models/model_resnet152.pth', map_location=torch.device('cpu')))
+try:
+    model.load_state_dict(torch.load('models/model_resnet152.pth', map_location=torch.device('cpu')), weights_only=True)
+except Exception as e:
+    print(f"Ошибка при загрузке модели: {e}")
 
 # Перевод модели в режим оценки
 model.eval()
